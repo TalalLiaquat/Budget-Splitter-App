@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Budget Splitter App</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      width: 300px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px gray;
+    }
+
+    input, select, button {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+    }
+
+    button {
+      background: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkgreen;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>💰 Budget Splitter</h2>
+
+  <input type="number" id="total" placeholder="Enter Total Bill">
+  <input type="number" id="people" placeholder="Number of People">
+
+  <select id="method">
+    <option value="equal">Equal Split</option>
+    <option value="custom">Custom Split</option>
+  </select>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function calculate() {
+  let total = parseFloat(document.getElementById("total").value);
+  let people = parseInt(document.getElementById("people").value);
+  let method = document.getElementById("method").value;
+  let result = "";
+
+  if (method === "equal") {
+    let share = total / people;
+    for (let i = 1; i <= people; i++) {
+      result += "Person " + i + " pays: " + share.toFixed(2) + "<br>";
+    }
+  } 
+  else {
+    let sum = 0;
+    let arr = [];
+
+    for (let i = 1; i <= people; i++) {
+      let val = parseFloat(prompt("Enter amount for Person " + i));
+      arr.push(val);
+      sum += val;
+    }
+
+    if (Math.abs(sum - total) > 0.01) {
+      alert("Warning: Total does not match bill!");
+    }
+
+    for (let i = 0; i < people; i++) {
+      result += "Person " + (i+1) + " pays: " + arr[i].toFixed(2) + "<br>";
+    }
+  }
+
+  document.getElementById("result").innerHTML = result;
+}
+</script>
+
+</body>
+</html>
